@@ -8,7 +8,6 @@ const { BONDORA_CLIENT_ID, BONDORA_CLIENT_SECRET } = require('./envs.json');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-let access_token = '';
 
 const sleep = async (timeout) => {
   return new Promise(resolve => {
@@ -30,8 +29,7 @@ app.get('/callback', async (req, res) => {
       'client_secret': BONDORA_CLIENT_SECRET,
       'code': req.query.code
     });
-    access_token = response.data.access_token
-    res.send({ ok: true });
+    res.send({ accessToken: response.data.access_token });
   } catch (error) {
     console.log(error);
     res.send(error);
@@ -47,14 +45,14 @@ app.post('/report', async (req, res) => {
     ReportType: '3',
     PeriodStart: periodStart,
     PeriodEnd: periodEnd
-  }, { headers: { Authorization: `Bearer ${ access_token }`} });
+  }, { headers: { Authorization: req.headers.Authorization } });
   await sleep(1500);
 
   const resRepayments = await axios.post('https://api.bondora.com/api/v1/report', {
     ReportType: '4',
     PeriodStart: periodStart,
     PeriodEnd: periodEnd
-  }, { headers: { Authorization: `Bearer ${ access_token }`} });
+  }, { headers: { Authorization: req.headers.Authorization } });
 
   res.send({
     futurePaymentsReportId: resFuturePayments.data.Payload.ReportId,
@@ -66,7 +64,7 @@ app.post('/report', async (req, res) => {
 
 app.get('/report/:reportId', async (req, res) => {
   const resReport = await axios.get(`https://api.bondora.com/api/v1/report/${ req.params.reportId }`,
-    { headers: { Authorization: `Bearer ${ access_token }`} });
+    { headers: { Authorization: req.headers.Authorization } });
 
   res.send(resReport.data);
 });
