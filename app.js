@@ -63,9 +63,6 @@ app.post('/report', async (req, res) => {
 });
 
 app.get('/report/:reportId', async (req, res) => {
-  console.log('asdf');
-  console.log(req.headers);
-
   const resReport = await axios.get(`https://api.bondora.com/api/v1/report/${ req.params.reportId }`,
     { headers: { Authorization: req.headers.authorization } });
 
