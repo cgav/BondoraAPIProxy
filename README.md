@@ -1,2 +1,2 @@
-# BondoraClient
-React-Native client for Bondora
+# BondoraProxy
+Simple Bondora API Proxy
