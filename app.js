@@ -45,14 +45,14 @@ app.post('/report', async (req, res) => {
     ReportType: '3',
     PeriodStart: periodStart,
     PeriodEnd: periodEnd
-  }, { headers: { Authorization: req.headers.Authorization } });
+  }, { headers: { Authorization: req.headers.authorization } });
   await sleep(1500);
 
   const resRepayments = await axios.post('https://api.bondora.com/api/v1/report', {
     ReportType: '4',
     PeriodStart: periodStart,
     PeriodEnd: periodEnd
-  }, { headers: { Authorization: req.headers.Authorization } });
+  }, { headers: { Authorization: req.headers.authorization } });
 
   res.send({
     futurePaymentsReportId: resFuturePayments.data.Payload.ReportId,
@@ -63,8 +63,11 @@ app.post('/report', async (req, res) => {
 });
 
 app.get('/report/:reportId', async (req, res) => {
+  console.log('asdf');
+  console.log(req.headers);
+
   const resReport = await axios.get(`https://api.bondora.com/api/v1/report/${ req.params.reportId }`,
-    { headers: { Authorization: req.headers.Authorization } });
+    { headers: { Authorization: req.headers.authorization } });
 
   res.send(resReport.data);
 });
