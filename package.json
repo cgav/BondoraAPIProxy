@@ -1,0 +1,18 @@
+{
+  "name": "bondora-client",
+  "version": "0.0.1",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "lodash": "^4.17.3",
+    "moment": "^2.17.1",
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "start": "node --harmony app.js",
+    "watch": "nodemon --harmony app.js"
+  }
+}
